@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableWebSecurity
@@ -21,7 +22,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         auth -> auth
-                                .requestMatchers("/login").permitAll()
+                                .requestMatchers("/login/**").permitAll()
+                                .requestMatchers("/user/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(
@@ -32,6 +34,11 @@ public class SecurityConfig {
                                 .jwt(Customizer.withDefaults())
                 );
         return http.build();
+    }
+
+    @Bean
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
     }
 
 }
