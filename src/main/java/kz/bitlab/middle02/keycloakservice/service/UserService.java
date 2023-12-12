@@ -33,4 +33,8 @@ public class UserService {
         return keyCloakClient.signIn(userLoginDTO);
     }
 
+    public void changePassword(String userName, String password){
+        keyCloakClient.changePassword(userName, password);
+    }
+
 }
